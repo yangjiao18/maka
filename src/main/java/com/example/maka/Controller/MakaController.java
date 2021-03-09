@@ -17,7 +17,6 @@ public class MakaController {
     @Autowired
     MakaService makaService;
 
-
     @PostMapping("/getCode")
     public void getCode(String name){
         String code = makaService.getNametoo("jackCode");
