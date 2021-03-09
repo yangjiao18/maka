@@ -1,0 +1,4 @@
+server:
+  servlet:
+    context-path: /maka
+  port: 8848
