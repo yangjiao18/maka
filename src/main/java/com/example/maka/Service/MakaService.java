@@ -16,5 +16,5 @@ public interface MakaService {
      * @return
      */
     @RequestMapping(method = RequestMethod.POST, value = "/getName")
-    String getNametoo(@RequestBody String name);
+    String getName(@RequestBody String name);
 }

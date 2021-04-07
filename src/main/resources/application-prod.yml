@@ -1,7 +1,7 @@
 server:
   servlet:
     context-path: /maka
-  port: 8849
+  port: 8856
 
 spring:
   rabbitmq:
@@ -10,4 +10,4 @@ spring:
     virtual-host: /
 
 name:
-  value : 1993
+  value : 19912312
