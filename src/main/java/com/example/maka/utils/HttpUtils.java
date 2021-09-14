@@ -168,4 +168,14 @@ public class HttpUtils {
         }
         return result;
     }
+
+    public static CloseableHttpResponse getHttp(String url) throws Exception{
+        SSLContext ctx = SSLContexts.custom().useProtocol("TLSv1.2").build();
+        CloseableHttpClient httpClient = HttpClients.custom().setSSLSocketFactory(new SSLConnectionSocketFactory(ctx)).build();
+        HttpGet httpGet = new HttpGet(url);
+        CloseableHttpResponse response = null;
+        response = httpClient.execute(httpGet);
+        return response;
+    }
+
 }
