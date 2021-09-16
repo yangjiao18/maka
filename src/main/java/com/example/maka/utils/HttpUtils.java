@@ -24,6 +24,14 @@ import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.ssl.SSLContexts;
+import org.apache.http.util.EntityUtils;
+import org.opensaml.xmlsec.signature.X509Certificate;
+
+
 public class HttpUtils {
 
     private static final Logger log = LoggerFactory.getLogger(HttpUtils.class);
@@ -169,13 +177,54 @@ public class HttpUtils {
         return result;
     }
 
-    public static CloseableHttpResponse getHttp(String url) throws Exception{
-        SSLContext ctx = SSLContexts.custom().useProtocol("TLSv1.2").build();
-        CloseableHttpClient httpClient = HttpClients.custom().setSSLSocketFactory(new SSLConnectionSocketFactory(ctx)).build();
-        HttpGet httpGet = new HttpGet(url);
+
+
+    public static String sendHttpPost(String url, String params) throws Exception {
+
+        CloseableHttpClient httpclient = null;
+
+        /* 相信自己的CA和所有自签名的证书 */
+        SSLContext sslcontext = SSLContexts.custom().loadTrustMaterial(new TrustSelfSignedStrategy()).build();
+
+        /* 不做证书校验 */
+        sslcontext.init(null, new TrustManager[] { truseAllManager }, null);
+
+        /* 添加两个属性 new String[]{"TLSv1.2"} 和 null */
+        SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(sslcontext,new String[]{"TLSv1.2"}, null, new HostnameVerifier() {
+            @Override
+            public boolean verify(String hostname, SSLSession session) {
+                return true;
+            }
+        });
+
+        httpclient = HttpClients.custom().setSSLSocketFactory(sslsf).build();
+        HttpPost httpPost = new HttpPost(url);// 创建httpPost
+        httpPost.setHeader("Content-Type", "application/json;charset=UTF-8");
+        String charSet = "UTF-8";
+        StringEntity entity = new StringEntity(params, charSet);
+        httpPost.setEntity(entity);
         CloseableHttpResponse response = null;
-        response = httpClient.execute(httpGet);
-        return response;
+        try {
+
+            response = httpclient.execute(httpPost);
+            HttpEntity responseEntity = response.getEntity();
+            String jsonString = EntityUtils.toString(responseEntity);
+            return jsonString;
+        }
+        finally {
+            if (response != null) {
+                try {
+                    response.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            try {
+                httpclient.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 }
