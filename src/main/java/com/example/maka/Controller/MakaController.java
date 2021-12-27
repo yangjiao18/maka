@@ -27,83 +27,15 @@ public class MakaController {
     @Value("${name.value}")
     private String value;
 
-    @Autowired
-    MakaService makaService;
-
-    @Autowired
-    AmqpAdmin amqpAdmin;
-
     @PostMapping("/getCode")
-    public void getCode(String name){
-        DirectExchange directExchange = new DirectExchange("hello.java.liu", true, false);
-        amqpAdmin.declareExchange(directExchange);
-        System.out.println("123");
-    }
-
-    @PostMapping("/createQueue")
-    public void createQueue(){
-        Queue queue = new Queue("hello.java.queue", true,false,false);
-        amqpAdmin.declareQueue(queue);
-        System.out.println("123");
-    }
-
-    @PostMapping("/createBinding")
-    public void createBounding(){
-        Binding binding = new Binding("hello.java.queue", Binding.DestinationType.QUEUE,
-                "hello.java.liu", "hello.java", null);
-        amqpAdmin.declareBinding(binding);
-        java.util.UUID.randomUUID();
-        System.out.println("123");
-    }
-
-    @PostMapping("/createGuid")
-    public void createGuid(@RequestHeader("guid") String guid){
-        System.out.println(guid);
-        System.out.println(java.util.UUID.randomUUID());
-    }
-
-    @PostMapping("/send")
-    public void send(@RequestBody String requestBody){
-
-        DateTime date = new DateTime();
-        DateTimeFormatter format = DateTimeFormat.forPattern("HHmmss");
-        System.out.println(date.toString(format));
-
-        System.out.println(date.getDayOfMonth());
-        System.out.println(date.getDayOfWeek());
-        System.out.println(date.getDayOfYear());
-        System.out.println(String.format("%04d", 31));
-//         String code = "123456";
-//        String disCode = code.substring(0,3)+"-"+ code.substring(3,code.length()-3) +"-" +code.substring(code.length()-3);
-//        String disCode01 = disCode.substring(0,5)+ "***" + disCode.substring(disCode.length()-6);
-//        System.out.println(disCode);
-//        System.out.println(disCode01);
-//        JSONObject resultJson = JSON.parseObject(requestBody);
-//        System.out.println(resultJson);
-//        JSONObject json = new JSONObject();
-//        json.put("mobile", "");
-//
-//        String numberWithPlus = json.getString("mobile") == null ? "" : json.getString("mobile");
-//        String number = numberWithPlus.length() == 0 ? null : numberWithPlus.substring(1);
-
-//        JSONObject requestJson = new JSONObject();
-//
-//        JSONObject a = new JSONObject();
-//        a.put("number","18320270016");
-//
-//        requestJson.put("smsheader", a);
-//
-//        JSONArray mergeFeildArr = new JSONArray();
-//        JSONObject b = new JSONObject();
-//        b.put("name","name");
-//        b.put("value","liu");
-//        JSONObject c = new JSONObject();
-//        c.put("name","code");
-//        c.put("value","1993");
-//        mergeFeildArr.add(b);
-//        mergeFeildArr.add(c);
-//        requestJson.put("mergeFeildList", mergeFeildArr);
-        //System.out.println(json.toString());
+    public void getCode() throws Exception {
+        String publicKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAiwv46ReCEFB5tIEB6YRhJ1GN3SrE0LPYnmCAFU39N85gCZaEaj5lNdxggy3X0xtxCxK0SU29Zp4XMfzRBi2IA87rDc5shKQ9Q3l79WWOKEelCSIc2fUpxPNrKAtvHZVJnHNvfB7K8Hbu0PNX2YZ8NYEzFVnyOUB63/kqKt8PIrP4np/wEhhTmGV65Z10JBHEFtPPwjU88zz5qMiQw8kjhlfW2dAYKVU2/xovvAZylj58TvzZu6aoubgwJNIn/lBWFG0pSv3af5IMdSe3g9IR1Mg11LtPa+VHh8hSiftgbhSg+fbOmd2rO79e5z+vGqbGbGqKXLYJQNxNCn0eVinhbwIDAQAB";
+        String privateKey = "MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCLC/jpF4IQUHm0gQHphGEnUY3dKsTQs9ieYIAVTf03zmAJloRqPmU13GCDLdfTG3ELErRJTb1mnhcx/NEGLYgDzusNzmyEpD1DeXv1ZY4oR6UJIhzZ9SnE82soC28dlUmcc298Hsrwdu7Q81fZhnw1gTMVWfI5QHrf+Soq3w8is/ien/ASGFOYZXrlnXQkEcQW08/CNTzzPPmoyJDDySOGV9bZ0BgpVTb/Gi+8BnKWPnxO/Nm7pqi5uDAk0if+UFYUbSlK/dp/kgx1J7eD0hHUyDXUu09r5UeHyFKJ+2BuFKD59s6Z3as7v17nP68apsZsaopctglA3E0KfR5WKeFvAgMBAAECggEAPZKOpcFoMgtA6aKbEyowz3V4ybBvuS96xB9deJGxiO3Vb0l814NL1D8DafN5+BzVwR6GQVOwhGmLQfJ/KSouaelOAy4etdn42xFHyBIxkjqvpUy60/WRiop0MCZoDQSXtTUU8DS+jx9Lf7HSfBvmktbkpRbQgXPBNb8jYhqmnCnHDIH0tC9VXVgfKZkZGjZQAbpiCysvaIXh+LJD309e3Oh3CDcnTvdUSgo2teTfduXL/2XfD31VEMvK5nZe5Lv1ReeeVrz6db9ffJvbJQt5rOBWhstdMNPd3ZbL3/fl7JZMg9zbokyCXzhaHOKYvpStkc//DDrsaCTC4mGCw44JyQKBgQDam2ZOu35Ygg1wn/hnb1j6VUEJTrlcCPpSLqczooMa9xm4QLy9qrvQH3ncExxUTsx6+xnPZt9WDaBZe7JeGJtJvyFmZroObRu2rAnLxZ6RJUI51h9rrLSXeGaPTMaibC3dwRkWrW1xfGE6+gDZ0anCutxy/bMOQ+/2xLrMl7xVswKBgQCi1LO7PG/+8eq5LmYInDQ9JViyzSrA9V0ayF0LAiQz3oHOG3pNE5DlXcPVlhgAw+/FGohYd1YrJLBgmrL53bUr7pL0fXf2xyg66plgLwTSyAvTKPpmbCEYNTyTw/XtasZRO7HEUOSWwrjjz+rik7xGOkCN34Tktr/DY7QbadxfVQKBgFjC1E2Pj4N8etyJ96B385bhWuDemCCofIs16inrCHTAdC7+CiSw2EVvIlmbYNtSi3A72IT/7hrQuZTbxtayAwt0kak0eMM2xhPr0qZsfS/OAw/cwzFDFKiT+ICi2dxFNHJf30H39QIpUIlTzVij6tvoZ25BWJyoNRzrUDWWPqBFAoGAIDPSq8fjGld7pU3gzfked61IImxi9TBRTnertv6gbEWoBDv47v9cm4/0p+v8KUKWy7NYna5UM0oZO7G8jZ/kMaEIHSQnMn3mnehBlv0Vhh4cAJHNG65syR3WMh8CJwcD25LjsECTRKGT8THwcQjopjblB2naHWVq/VhdiUJhW9UCgYEA0FtRX1Hm7Yne46AD/YeNa82hlHSvVEG3weTQXi1JSguJi+doYh+LLgS1SEkBCrn5zTIHTSXR1mBJLQnL47JXz6tfOnEeBvhFpmmVg3scdJIO7e8hu7J531QId8L542aCHzxGaVKp+pOqdXK+TBBRFu6bbeAftGAIXZ7Pt/9g34o";
+        String message = "df723820";
+        String messageEn = RSAEncrypt.encrypt(message,publicKey);
+        System.out.println(message + "\t加密后的字符串为:" + messageEn);
+        String messageDe = RSAEncrypt.decrypt(messageEn,privateKey);
+        System.out.println("还原后的字符串为:" + messageDe);
     }
 
 }
