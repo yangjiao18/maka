@@ -1,6 +1,5 @@
 package com.example.maka;
 
-import com.example.maka.Service.MakaService;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.amqp.core.AmqpAdmin;

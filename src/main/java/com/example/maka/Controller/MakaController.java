@@ -1,22 +1,17 @@
 package com.example.maka.Controller;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.JSONPObject;
+import com.example.maka.Service.Impl.AppIumServiceImpl;
 import com.example.maka.Service.MakaService;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
-import org.springframework.amqp.core.AmqpAdmin;
-import org.springframework.amqp.core.Binding;
-import org.springframework.amqp.core.DirectExchange;
-import org.springframework.amqp.core.Queue;
+import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.*;
-import org.joda.time.DateTime;
-import java.util.Date;
+import org.springframework.context.ApplicationContext;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import java.util.HashMap;
+
 /**
  * @author Administrator
  */
@@ -24,12 +19,21 @@ import java.util.HashMap;
 @RequestMapping("maka")
 public class MakaController {
 
-    @Value("${name.value}")
-    private String value;
+    @Autowired
+    private MakaService makaService;
+
+    @Autowired
+    private AppIumServiceImpl appIumService;
 
     @PostMapping("/getCode")
     public void getCode() throws Exception {
+        makaService.safeTest();
+    }
 
+    @RequestMapping("/executeScript")
+    public String executeScript() {
+        appIumService.executeScript( "张三" , "李四");
+        return "execute ok";
     }
 
 }
