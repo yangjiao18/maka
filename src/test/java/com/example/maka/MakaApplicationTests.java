@@ -12,14 +12,4 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest
 class MakaApplicationTests {
 
-    @Autowired
-    AmqpAdmin amqpAdmin;
-
-    @Test
-    public void create() {
-        DirectExchange directExchange = new DirectExchange("hello.java.two", true, false);
-        amqpAdmin.declareExchange(directExchange);
-        System.out.println("123");
-    }
-
 }
