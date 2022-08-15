@@ -92,7 +92,16 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>com.syncron.amazonaws</groupId>
+            <artifactId>simba-athena-jdbc-driver</artifactId>
+            <version>2.0.2</version>
+        </dependency>
+        <dependency>
+            <groupId>software.amazon.awssdk</groupId>
+            <artifactId>athena</artifactId>
+            <version>2.17.136</version>
+        </dependency>
     </dependencies>
     <dependencyManagement>
         <dependencies>
