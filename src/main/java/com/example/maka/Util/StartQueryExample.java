@@ -20,17 +20,15 @@ import java.util.List;
 public class StartQueryExample {
     //snippet-start:[athena.java2.StartQueryExample.main]
     public static void main(String[] args) throws InterruptedException {
-        //System.setProperty("aws.accessKeyId", "AKIAXDVBX7SHPS35DJ4K");
-        //System.setProperty("aws.secretAccessKey", "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");
-        // Build an AthenaClient client
-        AthenaClientFactory factory = new AthenaClientFactory();
-        AthenaClient athenaClient = factory.createClient();
 
-        String queryExecutionId = submitAthenaQuery(athenaClient);
-
-        waitForQueryToComplete(athenaClient, queryExecutionId);
-
-        processResultRows(athenaClient, queryExecutionId);
+//        AthenaClientFactory factory = new AthenaClientFactory();
+//        AthenaClient athenaClient = factory.createClient();
+//
+//        String queryExecutionId = submitAthenaQuery(athenaClient);
+//
+//        waitForQueryToComplete(athenaClient, queryExecutionId);
+//
+//        processResultRows(athenaClient, queryExecutionId);
     }
 
     /**

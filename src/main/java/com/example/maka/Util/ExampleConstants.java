@@ -11,7 +11,6 @@
 package com.example.maka.Util;
 
 public class ExampleConstants {
-
     public static final int CLIENT_EXECUTION_TIMEOUT = 100000;
     public static final String ATHENA_OUTPUT_BUCKET = "s3://jackcodetest";
     public static final String ATHENA_SAMPLE_QUERY = "select * from mc_logs where branch = '1';";

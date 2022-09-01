@@ -2,3 +2,8 @@ server:
   servlet:
     context-path: /maka
   port: 8849
+
+aws:
+  athena:
+    accessKeyId: AKIAXDVBX7SHPS35DJ4K
+    secretAccessKey: 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
