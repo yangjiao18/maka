@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.JSONPObject;
 import com.example.maka.Service.MakaService;
+import com.example.maka.Test.AppName;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.springframework.amqp.core.AmqpAdmin;
@@ -17,6 +18,9 @@ import org.springframework.web.bind.annotation.*;
 import org.joda.time.DateTime;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
  * @author Administrator
  */
@@ -34,10 +38,8 @@ public class MakaController {
     AmqpAdmin amqpAdmin;
 
     @PostMapping("/getCode")
-    public void getCode(String name){
-        DirectExchange directExchange = new DirectExchange("hello.java.liu", true, false);
-        amqpAdmin.declareExchange(directExchange);
-        System.out.println("123");
+    public List<Map<String, Object>> getCode(String name){
+        return AppName.toList();
     }
 
     @PostMapping("/createQueue")

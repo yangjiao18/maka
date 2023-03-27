@@ -1,7 +1,3 @@
-server:
-  servlet:
-    context-path: /maka
-  port: 8856
 
 spring:
   rabbitmq:
