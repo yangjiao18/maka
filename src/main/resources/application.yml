@@ -1,13 +1,4 @@
 server:
   servlet:
     context-path: /maka
-  port: 8849
-
-spring:
-  rabbitmq:
-    host: 192.168.0.151
-    port: 5672
-    virtual-host: /
-
-name:
-  value : 1993
+  port: 8080
